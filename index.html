@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN-API Test Page</title>
+</head>
+<body>
+    <h1>GREEN-API Test Page</h1>
+    <form id="greenApiForm" method="POST" action="/api">
+        <label for="idInstance">idInstance:</label>
+        <input type="text" id="idInstance" name="idInstance" required><br><br>
+
+        <label for="apiToken">ApiTokenInstance:</label>
+        <input type="text" id="apiToken" name="apiToken" required><br><br>
+
+        <label for="method">Method:</label>
+        <select id="method" name="method" required>
+            <option value="getSettings">getSettings</option>
+            <option value="getStateInstance">getStateInstance</option>
+            <option value="sendMessage">sendMessage</option>
+            <option value="sendFileByUrl">sendFileByUrl</option>
+        </select><br><br>
+
+        <label for="phone">Phone Number (for sendMessage/sendFileByUrl):</label>
+        <input type="text" id="phone" name="phone"><br><br>
+
+        <label for="message">Message (for sendMessage):</label>
+        <textarea id="message" name="message"></textarea><br><br>
+
+        <label for="fileURL">File URL (for sendFileByUrl):</label>
+        <input type="text" id="fileURL" name="fileURL"><br><br>
+
+        <button type="submit">Send</button>
+    </form>
+
+    <h2>Response:</h2>
+    <pre id="responseField"></pre>
+
+    <script>
+        const form = document.getElementById('greenApiForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/api', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.text();
+            document.getElementById('responseField').textContent = data;
+        });
+    </script>
+</body>
+</html>
